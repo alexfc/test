@@ -52,6 +52,36 @@ class SQLProjectRepository implements ProjectRepositoryInterface
     }
 
     /** @inheritdoc */
+    public function findByCriteria(ProjectCriteria $criteria): array
+    {
+        $where = [1];
+
+        foreach ($criteria->getContains() as $containData) {
+            foreach ($containData as $field => $value) {
+                $where[] = sprintf("%s like '%s'", $field, "%{$value}%");
+            }
+        }
+
+        if ($criteria->getFromStartDate()) {
+            $where[] = sprintf("start_date >= %s", $criteria->getFromStartDate());
+        }
+
+        if ($criteria->getToStartDate()) {
+            $where[] = sprintf("start_date <= %s", $criteria->getToStartDate());
+        }
+
+        $rows = $this->connection->fetchAll(sprintf('SELECT * FROM %s WHERE %s', self::TABLE_NAME, implode(' AND ', $where)));
+
+        $entities = [];
+
+        foreach ($rows as $row) {
+            $entities[] = $this->toEntity($row);
+        }
+
+        return $entities;
+    }
+
+    /** @inheritdoc */
     public function save(Project $entity): Project
     {
         $startDate = $entity->getStartDate() ? $entity->getStartDate()->format('Y-m-d') : null;

@@ -1,4 +1,27 @@
 .container {
-    grid-template-columns: 20% auto;
+    max-width: 1280px;
+    min-width: 320px;
+    margin: auto;
+}
+
+.project {
     background-color: #5eb5e0;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.project-header {
+
+}
+
+.project-body {
+    display: flex;
+}
+
+.project-image {
+    max-width: 320px;
+}
+
+.project-info {
+    margin-left: 20px;
 }

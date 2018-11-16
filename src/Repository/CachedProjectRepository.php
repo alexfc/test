@@ -11,6 +11,7 @@ namespace App\Repository;
 
 use App\Entity\Project;
 use Psr\SimpleCache\CacheInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class CachedProjectRepository implements ProjectRepositoryInterface
 {
@@ -83,6 +84,15 @@ class CachedProjectRepository implements ProjectRepositoryInterface
         $this->cache->delete($this->makeCacheKey(self::CACHE_PREFIX_ALL));
 
         return $entity;
+    }
+
+    /**
+     * @param ProjectCriteria $criteria
+     * @return Project[]
+     */
+    public function findByCriteria(ProjectCriteria $criteria): array
+    {
+        return $this->projectRepository->findByCriteria($criteria);
     }
 
     /**

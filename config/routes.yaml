@@ -6,6 +6,11 @@ list:
     path: /api/projects
     controller: App\Controller\ProjectController::index
 
+filter:
+    path: /api/projects/filter
+    controller: App\Controller\ProjectController::filter
+    methods: [POST]
+
 detail:
     path: /api/projects/{id}
     controller: App\Controller\ProjectController::viewProject

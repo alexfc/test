@@ -29,4 +29,10 @@ interface ProjectRepositoryInterface
      * @return Project
      */
     public function save(Project $entity): Project;
+
+    /**
+     * @param ProjectCriteria $criteria
+     * @return Project[]
+     */
+    public function findByCriteria(ProjectCriteria $criteria);
 }

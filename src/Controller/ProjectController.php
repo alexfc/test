@@ -9,8 +9,10 @@
 namespace App\Controller;
 
 
+use App\Repository\ProjectCriteria;
 use App\Repository\ProjectRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProjectController extends AbstractController
 {
@@ -45,5 +47,28 @@ class ProjectController extends AbstractController
             ['status' => 'error',
              'message' => 'project not found']
         );
+    }
+
+    public function filter(Request $request)
+    {
+        $subject = $request->request->get('subject');
+        $fromDate = $request->request->get('from');
+        $toDate = $request->request->get('to');
+
+        $criteria = (new ProjectCriteria())
+            ->from($fromDate)
+            ->to($toDate);
+
+        if ($subject) {
+            $criteria->contains(['subject' => $subject]);
+        }
+
+        $projects = [];
+
+        foreach ($this->projectRepository->findByCriteria($criteria) as $project) {
+            $projects[] = $project->toArray();
+        }
+
+        return $this->json($projects);
     }
 }
