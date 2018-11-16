@@ -1,0 +1,4 @@
+.container {
+    grid-template-columns: 20% auto;
+    background-color: #5eb5e0;
+}

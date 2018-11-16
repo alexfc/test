@@ -1,0 +1,11 @@
+index:
+    path: /
+    controller: App\Controller\HomeController::index
+
+list:
+    path: /api/projects
+    controller: App\Controller\ProjectController::index
+
+detail:
+    path: /api/projects/{id}
+    controller: App\Controller\ProjectController::viewProject
